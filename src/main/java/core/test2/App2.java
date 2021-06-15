@@ -10,7 +10,7 @@ public class App2 {
 		String path = "core/test2/core_test2.xml";
 		ApplicationContext context = new ClassPathXmlApplicationContext(path);
 		
-		Object o1 = context.getBean("beg");
+		Object o1 = context.getBean("bag");
 		Object o2 = context.getBean("book");
 		
 		System.out.println(o1);
