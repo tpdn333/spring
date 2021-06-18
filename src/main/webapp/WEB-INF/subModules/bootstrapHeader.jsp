@@ -7,6 +7,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
 <!-- css 버전 -->
- <%-- <link href="${pageContext.request.contextPath }/res/css/all.css" rel="stylesheet"> --%>
+<link href="${pageContext.request.contextPath }/resources/css/all.css" rel="stylesheet">
  <!-- JS 버전 -->
- <%-- <script defer src="${pageContext.request.contextPath }/res/js/all.js"></script> --%>
+<script defer src="${pageContext.request.contextPath }/resources/js/all.js"></script>
