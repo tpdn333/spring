@@ -81,7 +81,8 @@ public class Ex08Controller {
 	@RequestMapping("sub09")
 //	@RequestParam 생략가능
 //	public void method09(@RequestParam int age, @RequestParam String name) {
-	public void method09(@ModelAttribute("age") int age, @ModelAttribute("name") String name) {
+	public void method09(@ModelAttribute("age") int age, 
+			@ModelAttribute("name") String name) {
 		log.info("ex08, sub09 method");
 		
 		log.info(age);
