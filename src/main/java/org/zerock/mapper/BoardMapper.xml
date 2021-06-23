@@ -12,6 +12,7 @@
 			regdate regdate,
 			updatedate updateDate 
 		 FROM tbl_board
+		 ORDER BY bno DESC
 	</select>
 	
 	<insert id="insert">
