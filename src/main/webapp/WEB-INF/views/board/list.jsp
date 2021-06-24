@@ -12,6 +12,22 @@
 <%@ include file="/WEB-INF/subModules/bootstrapHeader.jsp"%>
 
 <title>Insert title here</title>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#list-pagination1 a").click(function(e) {
+		e.preventDefault();
+		
+		console.log("a요소 클릭됨");
+		
+		var actionForm = $("#actionForm");
+		
+		// form의 pageNum input의 값을 a 요소의 href값으로 변경
+		actionForm.find("[name=pageNum]").val($(this).attr("href"));
+		
+		actionForm.submit();
+	});
+});
+</script>
 </head>
 <body>
 	<div class="container">
@@ -30,7 +46,13 @@
 			<c:forEach items="${list }" var="board">
 				<tr>
 					<td>${board.bno }</td>
-					<td><a href="${appRoot }/board/get?bno=${board.bno}">${board.title }</a></td>
+					<td>
+					<c:url value="/board/get" var="getURL">
+						<c:param name="bno" value="${board.bno }" />
+						<c:param name="pageNum" value="${pageMaker.cri.pageNum }" />
+						<c:param name="amount" value="${pageMaker.cri.amount }" />
+					</c:url>
+					<a href="${getURL }">${board.title }</a></td>
 					<td>${board.writer }</td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate }"/></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updateDate }"/></td>
@@ -38,6 +60,37 @@
 			</c:forEach>
 		</tbody>
 		</table>
+	</div>
+	<!-- pagination  -->
+	<div>
+		<nav aria-label="Page navigation example">
+			<ul id="list-pagination1" class="pagination justify-content-center">
+				<c:if test="${pageMaker.prev }">
+					<li class="page-item">
+					  <a class="page-link" href="#">Previous</a>
+					</li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
+				<%-- href value
+				href="${appRoot }/board/list?pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}"
+				 --%>
+					<li class="page-item"><a class="page-link" 
+						href="${num }">${num }</a></li>
+				</c:forEach>
+				
+				<c:if test="${pageMaker.next }">
+					<li class="page-item">
+					  <a class="page-link" href="#">Next</a>
+					</li>
+				</c:if>
+			</ul>
+		</nav>
+		<div style="display:none;">
+			<form id="actionForm" action="${appRoot }/board/list" method="get">
+				<input name="pageNum" value="${pageMake.cri.pageNum }"/>
+				<input name="amount" value="${pageMaker.cri.amount }"/>
+			</form>
+		</div>
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
