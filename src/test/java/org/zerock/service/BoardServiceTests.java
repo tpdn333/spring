@@ -43,13 +43,13 @@ public class BoardServiceTests {
 		assertEquals(1L, board.getBno());
 	}
 
-	@Test
-	public void testGetList() {
-		List<BoardVO> list = service.getList();
-
-		assertNotNull(list);
-		assertTrue(list.size() > 0);
-	}
+//	@Test
+//	public void testGetList() {
+//		List<BoardVO> list = service.getList(cir);
+//
+//		assertNotNull(list);
+//		assertTrue(list.size() > 0);
+//	}
 
 	@Test
 	public void testGet() {
