@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,13 +57,13 @@ public class BoardController {
 		return "redirect:/board/list";
 
 	}
-	
 	@GetMapping({ "get", "modify" })
 	public void get(@RequestParam("bno") Long bno, 
 			@ModelAttribute("cri") Criteria cri, 
 			Model model) {
 		log.info("board/get method 실행됨!!!!!! ");
 		// service에게 일 시킴
+		service.addViews(bno);
 		BoardVO board = service.get(bno);
 		
 		// 결과를 model객체에 넣음
@@ -72,7 +73,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("modify")
-	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
+	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		// request param 수집
 		
 		// service 일 시킴
@@ -85,6 +86,8 @@ public class BoardController {
 		}
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		// redirect
 		return "redirect:/board/list";
 	}
@@ -104,6 +107,8 @@ public class BoardController {
 		}
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		
 		return "redirect:/board/list";
 	}
