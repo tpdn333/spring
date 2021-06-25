@@ -1,5 +1,5 @@
 CREATE DATABASE spr1;
-USE spr1;
+USE spr2;
 
 CREATE TABLE tbl_board(
 	bno INT PRIMARY KEY AUTO_INCREMENT,
@@ -11,9 +11,12 @@ CREATE TABLE tbl_board(
 );
 
 INSERT INTO tbl_board (title, content, writer)
-VALUES ('testTitle', 'test content', 'user5');
+VALUES ('vu', 'test content java', 'user00');
 
-SELECT * FROM tbl_board;
+
+
+SELECT * FROM tbl_board
+ORDER BY bno DESC;
 
 -- 연습
 CREATE TABLE tbl_test1 (
