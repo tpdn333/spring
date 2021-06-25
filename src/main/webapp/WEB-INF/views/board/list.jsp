@@ -32,6 +32,7 @@ $(document).ready(function() {
 <body>
 	<div class="container">
 	<bd:navbar/>
+		<h1>자유 게시판</h1>
 		<table class="table table-hover">
 		<thead>
 			<tr>
@@ -40,6 +41,7 @@ $(document).ready(function() {
 				<th>작성자</th>
 				<th>작성일</th>
 				<th>수정일</th>
+				<th>조회수</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -51,11 +53,14 @@ $(document).ready(function() {
 						<c:param name="bno" value="${board.bno }" />
 						<c:param name="pageNum" value="${pageMaker.cri.pageNum }" />
 						<c:param name="amount" value="${pageMaker.cri.amount }" />
+						<c:param name="type" value="${pageMaker.cri.type }" />
+						<c:param name="keyword" value="${pageMaker.cri.keyword }" />
 					</c:url>
 					<a href="${getURL }">${board.title }</a></td>
 					<td>${board.writer }</td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate }"/></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updateDate }"/></td>
+					<td>${board.views }</td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -67,28 +72,31 @@ $(document).ready(function() {
 			<ul id="list-pagination1" class="pagination justify-content-center">
 				<c:if test="${pageMaker.prev }">
 					<li class="page-item">
-					  <a class="page-link" href="#">Previous</a>
+					  <a class="page-link" href="${pageMaker.startPage - 1 }">Previous</a>
 					</li>
 				</c:if>
 				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
 				<%-- href value
 				href="${appRoot }/board/list?pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}"
 				 --%>
-					<li class="page-item"><a class="page-link" 
+					<li class="page-item ${num == cri.pageNum ? 'active' : '' }"><a class="page-link" 
 						href="${num }">${num }</a></li>
 				</c:forEach>
 				
 				<c:if test="${pageMaker.next }">
 					<li class="page-item">
-					  <a class="page-link" href="#">Next</a>
+					  <a class="page-link" href="${pageMaker.endPage + 1 }">Next</a>
 					</li>
 				</c:if>
 			</ul>
 		</nav>
+		<!-- pageLink From -->
 		<div style="display:none;">
 			<form id="actionForm" action="${appRoot }/board/list" method="get">
-				<input name="pageNum" value="${pageMake.cri.pageNum }"/>
-				<input name="amount" value="${pageMaker.cri.amount }"/>
+				<input name="pageNum" value="${cri.pageNum }"/>
+				<input name="amount" value="${cri.amount }"/>
+				<input name="type" value="${cri.type }" />
+				<input name="keyword" value="${cri.keyword }"/>
 			</form>
 		</div>
 	</div>

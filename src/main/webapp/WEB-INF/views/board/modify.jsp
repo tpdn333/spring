@@ -26,6 +26,7 @@
 </head>
 <body>
 	<div class="container">
+	<bd:navbar/>
 		<h1>글 수정/삭제</h1>
 		<form id="modifyForm1" action="${appRoot }/board/modify" method="post">
 			<input hidden="hidden" name="bno" value="${board.bno }"/>
@@ -41,6 +42,10 @@
 				<label for="input2">작성자</label>
 				<input readonly="readonly" id="input2" class="form-control" name="writer" value="${board.writer }"/>
 			</div>
+			<input type="hidden" name="pageNum" value="${cri.pageNum }"/>
+			<input type="hidden" name="amount" value="${cri.amount }"/>
+			<input type="hidden" name="type" value="${cri.type }"/>
+			<input type="hidden" name="keyword" value="${cri.keyword }"/>
 				<input class="btn btn-warning" type="submit" value="수정"/>
 				<input id="boardRemoveBtn" class="btn btn-danger" type="button" value="삭제"/>
 		</form>

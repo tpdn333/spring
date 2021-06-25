@@ -30,7 +30,14 @@
 				<label for="input2">작성자</label>
 				<input readonly="readonly" id="input2" class="form-control" name="writer" value="${board.writer }"/>
 			</div>
-			<a class="btn btn-secondary" href="${appRoot }/board/modify?bno=${board.bno}">수정/삭제</a>
+			<c:url value="/board/modify" var="modifyURL">
+				<c:param name="bno" value="${board.bno }"></c:param>
+				<c:param name="pageNum" value="${cri.pageNum }"></c:param>
+				<c:param name="amount" value="${cri.amount }"></c:param>
+				<c:param name="type" value="${cri.type }"></c:param>
+				<c:param name="keyword" value="${cri.keyword }"></c:param>
+			</c:url>
+			<a class="btn btn-secondary" href="${modifyURL }">수정/삭제</a>
 		</form>
 	</div>
 </body>
