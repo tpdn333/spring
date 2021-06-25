@@ -51,4 +51,10 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getTotalCount(cri);
 	}
 
+	@Override
+	public void addViews(Long bno) {
+		mapper.addViews(bno);
+		
+	}
+
 }
