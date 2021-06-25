@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.mapper.Test2Mapper">
+	<select id="sql1" resultType="int">
+		SELECT count(*) FROM tbl_board WHERE writer = #{t}
+	</select>
+	
+	<select id="sql2" resultType="int">
+		<if test='type == "a"'>
+			SELECT 1
+		</if>
+		<if test='type == "b"'>
+			SELECT 2
+		</if>
+	</select>
+	
+	<select id="sql3" resultType="int">
+		SELECT count(*) FROM tbl_board
+		WHERE
+		<if test='type == "a"'>
+			writer = 'user'
+		</if>
+		
+		<if test='type == "b"'>
+			content = 'test'
+		</if>
+	</select>
+	
+	<select id="sql4" resultType="int">
+		SELECT count(*) FROM tbl_board
+		<where>
+			<if test='type == "a"'>
+				writer = 'user'
+			</if>
+			
+			<if test='type == "b"'>
+				content = 'test'
+			</if>
+		</where>
+	</select>
+	
+	<select id="sql5" resultType="int">
+		SELECT count(*) FROM tbl_board
+		<where>
+			<choose>
+				<when test='type == "a"'>
+					writer = 'user'
+				</when>
+				
+				<when test='type == "b"'>
+					content = 'test'
+				</when>
+				<otherwise>
+					title = 'test'
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+	
+	<select id="sql6" resultType="int">
+		SELECT count(*) FROM tbl_board
+		
+		WHERE writer IN (
+		<trim suffixOverrides=",">
+			<foreach item="ab" collection="list">
+				#{ab} ,
+			</foreach>
+		</trim>
+		)
+	</select>
+	
+	<select id="sql7" resultType="int">
+		SELECT COUNT(*) FORM tbl_board
+		WHERE
+		
+		writer IN(
+			<foreach item="item" separator="," collection="list">
+				#{item}
+			</foreach>
+		)
+	</select>
+	
+	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+		SELECT COUNT(*) FORM tbl_board
+		WHERE
+		
+		<where>
+			<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+				<foreach collection="typeArr" item="type">
+					<trim prefix="OR">
+						<choose>
+							<when test="type == 'T'.toString()">
+								title LIKE CONCAT('%', #{keyword}, '%')
+							</when>
+							<when test="type == 'C'.toString()">
+								content LIKE CONCAT('%', #{keyword}, '%')
+							</when>
+							<when test="type == 'W'.toString()">
+								writer LIKE CONCAT('%', #{keyword}, '%')
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</where>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,12 +3,30 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.BoardMapper">
+	<sql id="criteria">
+		<where>
+	     <foreach collection="typeArr" separator="OR" item="type">
+	     	<choose>
+	     		<when test='type == "T"'>
+	     			title LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "W"'>
+	     			writer LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "C"'>
+	     			content LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     	</choose>
+	     </foreach>
+     </where>
+	</sql>
 	<select id="getList" resultType="org.zerock.domain.BoardVO">
 		SELECT
 			bno bno,
 			title title,
 			content content,
 			writer writer,
+			views views,
 			regdate regdate,
 			updatedate updateDate 
 		 FROM tbl_board
@@ -17,28 +35,27 @@
 	
 	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
     
-    <![CDATA[
-    
     SELECT 
     	bno bno,
     	title title,
     	content content,
     	writer writer,
+    	views views,
     	regdate regdate,
     	updatedate updateDate
-    
      FROM tbl_board
+     <include refid="criteria"></include>
      
      ORDER BY bno DESC
      
      LIMIT #{from}, #{amount}
      
-    ]]>
     
   	</select>
   	
 	<select id="getTotalCount" resultType="int">
 		SELECT COUNT(*) FROM tbl_board
+		<include refid="criteria"></include>
 	</select>
 	
 	<insert id="insert">
@@ -57,6 +74,7 @@
 			title title,
 			content content,
 			writer writer,
+			views views,
 			regdate regdate,
 			updatedate updateDate
 		FROM tbl_board
@@ -76,5 +94,12 @@
 			updateDate = NOW()
 		WHERE
 			bno = #{bno}
+	</update>
+	
+	<update id="addViews">
+		UPDATE tbl_board
+		SET
+			views = views + 1
+		WHERE bno = #{bno}
 	</update>
 </mapper>
