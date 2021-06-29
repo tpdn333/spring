@@ -50,12 +50,41 @@
 		function generateTableRow(data) {
 			return "<tr><td>" + data.id + "</td><td>" + data.age + "</td></tr>"
 		}
+		
+		$("#like-btn1").click(function() {
+			var oper = $(this).attr("data-oper");
+			var url = "${appRoot}/rest10/" + oper;
+			$.post({
+				url : url,
+				success : function(data) {
+						$("#like-cnt1").text(data);
+					if(oper === "like"){
+						$("#like-btn1").attr("data-oper", "disLike");
+						$("#like-icon1").removeClass("far").addClass("fas");
+						console.log($(this));
+						console.log(this);
+					} else {
+						$("#like-btn1").attr("data-oper", "like");
+						$("#like-icon1").removeClass("fas").addClass("far");
+						//$("#like-icon1").toggleClass("far fas");
+						console.log($(this));
+					}
+				}
+			})
+				
+		});
 	});
 </script>
 </head>
 <body>
 <div class="container">
 	<h3><%= Math.random() %></h3>
+	<hr>
+	<div id="like-btn1" data-oper="like">
+		<i id="like-icon1" class="far fa-heart"></i>
+		<span id="like-cnt1">10</span>
+	</div>
+	<hr>
 	<input id="input1" name="id" placeholder="ID를 입력하시오."/>
 	<input id="input2" name="age" type="number" placeholder="나이"/>
 	<!-- <input id="submit1" type="submit" value="제출"/> -->

@@ -25,12 +25,21 @@
 				}
 			});
 		});
+		$("#test2").click(function() {
+			console.log(this);
+			console.log($(this));
+			$("#test3").text(this);
+			$("#test4").text($(this)[0]);
+		});
 	});
 </script>
 </head>
 <body>
 	<div class="container">
 		<button id="test1">BUTTON</button>
+		<button id="test2">BUTTON2</button>
+		<p id="test3">누르기 전</p>
+		<p id="test4">누르기 전</p>
 	</div>
 </body>
 </html>
