@@ -16,7 +16,9 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("rest10")
 @Log4j
 public class Ex10RestController {
-
+	
+	private int like = 10;
+	
 	private List<User> list = new ArrayList<>();
 	
 	@PostMapping("add")
@@ -31,5 +33,21 @@ public class Ex10RestController {
 	@GetMapping("list")
 	public List<User> list() {
 		return list;
+	}
+	
+	@PostMapping("like")
+	public Integer like() {
+		log.info("좋아요");
+		like++;
+		
+		return like;
+	}
+	
+	@PostMapping("disLike")
+	public Integer disLike() {
+		log.info("싫어요");
+		like--;
+		
+		return like;
 	}
 }

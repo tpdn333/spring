@@ -17,4 +17,10 @@ public class Ex05RestController {
 		log.info("rest05 sub01 method 실행");
 		return user;
 	}
+	
+	@RequestMapping("sub02")
+	public String method02() {
+		log.info("ret05 sub02");
+		return "hello";
+	}
 }
