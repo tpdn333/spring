@@ -11,6 +11,11 @@ CREATE TABLE tbl_reply(
 ALTER TABLE tbl_reply ADD CONSTRAINT pk_relpy PRIMARY KEY (rno); -- X
 ALTER TABLE tbl_reply ADD CONSTRAINT fk_reply_board FOREIGN KEY (bno) REFERENCES tbl_board(bno);
 
-SELECT * FROM tbl_board;
+SELECT * FROM tbl_board
+ORDER BY bno DESC;
 
 SELECT * FROM tbl_reply;
+
+SELECT * FROM tbl_reply
+		WHERE bno = 125
+		ORDER BY rno ASC;
