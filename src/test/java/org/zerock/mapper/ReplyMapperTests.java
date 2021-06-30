@@ -1,6 +1,11 @@
 package org.zerock.mapper;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +25,8 @@ public class ReplyMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private ReplyMapper mapper;
 	
+	private Long[] bnoArr = { 149L, 150L, 151L, 152L, 153L };
+	
 	@Test
 	public void testMapper() {
 		assertNotNull(mapper);
@@ -33,6 +40,19 @@ public class ReplyMapperTests {
 		vo.setReplyer("진아진");
 		int cnt = mapper.insert(vo);
 		assertEquals(1, cnt);
+	}
+	
+	@Test
+	public void testCreate() {
+		IntStream.range(30, 50).forEach(i -> {
+			ReplyVO vo = new ReplyVO();
+			
+			vo.setBno(bnoArr[i % 5]);
+			vo.setReply("댓글 테스트" + i);
+			vo.setReplyer("replyer" + i);
+			
+			mapper.insert(vo);
+		});
 	}
 	
 	@Test
@@ -66,5 +86,13 @@ public class ReplyMapperTests {
 		vo = mapper.read(1L);
 		assertEquals(re, vo.getReply());
 	}
-
+	
+	@Test
+	public void testGetList() {
+		Long bno = 150L;
+		
+		List<ReplyVO> list = mapper.getList(bno);
+		
+		assertTrue(list.size() > 0);
+	}
 }
