@@ -17,5 +17,9 @@ ORDER BY bno DESC;
 SELECT * FROM tbl_reply;
 
 SELECT * FROM tbl_reply
-		WHERE bno = 125
+		WHERE bno = 150
 		ORDER BY rno ASC;
+        
+SELECT
+DISTINCT (b.bno)
+FROM tbl_board b JOIN tbl_reply r ON b.bno = r.bno;
