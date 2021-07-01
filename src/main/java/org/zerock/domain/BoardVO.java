@@ -14,4 +14,6 @@ public class BoardVO {
 	private Date regdate;
 	private Date updateDate;
 	private Long views;
+	
+	private int replyCnt;
 }
