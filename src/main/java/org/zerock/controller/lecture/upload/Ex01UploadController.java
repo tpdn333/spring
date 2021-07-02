@@ -19,7 +19,10 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("upload")
 @Log4j
 public class Ex01UploadController {
-	
+	/*
+	 *  https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html
+	 *  AWS에 파일 업로드
+	 */
 	@RequestMapping("sub01")
 	public void method01(String fname, @RequestParam("img") MultipartFile file) {
 		log.info(fname);
