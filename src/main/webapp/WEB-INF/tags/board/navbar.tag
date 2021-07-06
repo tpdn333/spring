@@ -3,15 +3,23 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:url value="/board/list" var="listURL">
+	<c:if test="${not empty cri.pageNum }">
 		<c:param name="pageNum" value="${cri.pageNum }"></c:param>
+	</c:if>
+	<c:if test="${not empty cri.amount }">
 		<c:param name="amount" value="${cri.amount }"></c:param>
+	</c:if>
 		<c:param name="keyword" value="${cri.keyword }"></c:param>
 		<c:param name="type" value="${cri.type }" ></c:param>
 </c:url>
 
 <c:url value="/board/register" var="registerURL">
+	<c:if test="${not empty cri.pageNum }">
 		<c:param name="pageNum" value="${cri.pageNum }"></c:param>
+	</c:if>
+	<c:if test="${not empty cri.amount }">
 		<c:param name="amount" value="${cri.amount }"></c:param>
+	</c:if>
 		<c:param name="keyword" value="${cri.keyword }"></c:param>
 		<c:param name="type" value="${cri.type }" ></c:param>
 </c:url>
@@ -29,6 +37,15 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="${registerURL }">글쓰기</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="${appRoot }/secure/all">모두</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="${appRoot }/secure/member">회원</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="${appRoot }/secure/admin">관리자</a>
       </li>
     </ul>
   </div>
@@ -48,6 +65,9 @@
   		});
   	});
   </script>
+  <form action="${appRoot }/logout" method="post">
+  	<button class="btn btn-online-secondary">로그아웃</button>
+  </form>
   <form id="searchForm" action="${listURL }" method="get" class="form-inline">
   	<select onchange="this.form.submit()" name="amount" class="form-control mr-sm-2">
 	  		<option value="10">10개씩</option>
