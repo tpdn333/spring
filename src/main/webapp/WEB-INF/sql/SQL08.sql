@@ -37,3 +37,23 @@ SELECT
 			tbl_member m LEFT JOIN tbl_member_auth a ON m.userid = a.userid
 		WHERE 
 			m.userid = 'admin';
+
+CREATE INDEX idx_reply ON tbl_reply (bno DESC, rno ASC);
+
+SELECT rno, bno, reply, replyer, replydate, updatedate
+FROM tbl_reply
+WHERE bno = 102
+	  AND rno > 0
+ORDER BY rno ASC
+LIMIT 0, 10;
+
+
+
+
+
+
+
+
+
+
+
