@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="bd" tagdir="/WEB-INF/tags/board" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -14,6 +15,7 @@
 <script type="text/javascript">
 	var appRoot = "${appRoot}";
 	var boardBno = "${board.bno}";
+	var userid = "${pinfo.member.userid}";
 </script>
 <script src="${appRoot }/resources/js/get.js"></script>
 </head>
@@ -33,7 +35,8 @@
 			</div>
 			<div class="form-group">
 				<label for="input2">작성자</label>
-				<input readonly="readonly" id="input2" class="form-control" name="writer" value="${board.writer }"/>
+				<input type="hidden" readonly="readonly" id="input2" class="form-control" name="writer" value="${board.writer }"/>
+				<input readonly="readonly" class="form-control" value="${board.writerName }"/>
 			</div>
 			<c:url value="/board/modify" var="modifyURL">
 				<c:param name="bno" value="${board.bno }"></c:param>
@@ -42,10 +45,11 @@
 				<c:param name="type" value="${cri.type }"></c:param>
 				<c:param name="keyword" value="${cri.keyword }"></c:param>
 			</c:url>
-			<a class="btn btn-secondary" href="${modifyURL }">수정/삭제</a>
+			<c:if test="${pinfo.member.userid eq board.writer }">
+				<a class="btn btn-secondary" href="${modifyURL }">수정/삭제</a>
+			</c:if>
 		</form>
 	</div>
-	<hr>
 	<div class="container mt-2">
 		<div hidden="hidden" id="alert1" class="alert alert-primary fade" role="alert">
 			A simple primary alert—check it out!
@@ -53,7 +57,9 @@
 		<div class="row">
 			<div class="col-12">
 				<h3>댓글</h3>
-				<button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#reply-insert-modal" >댓글 작성</button>
+				<sec:authorize access="isAuthenticated()">
+					<button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#reply-insert-modal" >댓글 작성</button>
+				</sec:authorize>
 				<ul class="list-unstyled" id="reply-list-container">
 					
 				</ul>
@@ -75,11 +81,11 @@
 	        		<form>
 	        		<input type="text" value="${board.bno }" readonly hidden id="reply-bno-input1"/>
 	          		<div class="form-group">
-	            		<label for="recipient-name" class="col-form-label">작성자</label>
-	            		<input type="text" class="form-control" id="reply-replyer-input1">
+	            		<label for="reply-replyer-input1" class="col-form-label">작성자</label>
+	            		<input readonly type="text" class="form-control" id="reply-replyer-input1" value="${pinfo.member.userid }">
 	         		</div>
 	        		<div class="form-group">
-	            		<label for="message-text" class="col-form-label">댓글</label>
+	            		<label for="reply-reply-textarea1" class="col-form-label">댓글</label>
 	            		<textarea class="form-control" id="reply-reply-textarea1"></textarea>
 	          		</div>
 	        		</form>
