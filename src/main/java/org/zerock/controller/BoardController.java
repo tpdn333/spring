@@ -2,6 +2,7 @@ package org.zerock.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -42,6 +43,7 @@ public class BoardController {
 	}
 
 	@PostMapping("register")
+	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("board/register method 실행됨!");
 
@@ -73,6 +75,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("modify")
+	@PreAuthorize("principal.username == #board.writer")
 	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		// request param 수집
 		
@@ -93,8 +96,9 @@ public class BoardController {
 	}
 	
 	@PostMapping("remove")
+	@PreAuthorize("principal.username == #writer")
 	public String remove(@RequestParam("bno") Long bno, 
-			Criteria cri, RedirectAttributes rttr) {
+			Criteria cri, RedirectAttributes rttr, String writer) {
 		// param 수집
 		
 		// service 
@@ -114,6 +118,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("register")
+	@PreAuthorize("isAuthenticated()") // 673쪽
 	public void register(@ModelAttribute("cri") Criteria cri) {
 		// /WEB-INF/views/board/register.jsp로 forward됨
 		// 화면만 보여줘야되서 아무것도 필요없음.
