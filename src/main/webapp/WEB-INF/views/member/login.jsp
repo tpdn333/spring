@@ -19,12 +19,17 @@
 			<h1>로그인</h1>
 				<form action="${appRoot }/login" method="post">
 					<div class="form-group">
-						<label for="input1">이름</label>
-						<input class="form-control"id="input1" name="username" />
+						<label for="input1">아이디</label>
+						<input class="form-control" id="input1" name="username" />
 					</div>
 					<div class="form-group">
 						<label for="input2">비밀번호</label>
-						<input class="form-control" id="input2" name="password" />
+						<input type="password" class="form-control" id="input2" name="password" />
+					</div>
+						
+					<div class="form-group form-check">
+						<input name="remember-me" type="checkbox" class="form-check-input" id="checkbox1"/>
+						<label class="form-check-label" for="checkbox1">remember me</label>
 					</div>
 					<button class="btn btn-primary">로그인</button>
 				</form>
