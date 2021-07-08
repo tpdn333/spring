@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class ReplyController {
 	private ReplyService service;
 	
 	@PostMapping("new")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
 		
 		int cnt = service.register(vo);
@@ -48,7 +50,8 @@ public class ReplyController {
 	}
 	
 	@DeleteMapping("{rno}")
-	public ResponseEntity<String> remove(@PathVariable Long rno) {
+	@PreAuthorize("principal.username == #vo.replyer")
+	public ResponseEntity<String> remove(@PathVariable Long rno, @RequestBody ReplyVO vo) {
 		int cnt = service.remove(rno);
 		
 		if(cnt == 1) {
@@ -59,6 +62,7 @@ public class ReplyController {
 	}
 	
 	@PutMapping("{rno}")
+	@PreAuthorize("principal.username == #vo.replyer")
 	public ResponseEntity<String> modify(@PathVariable Long rno,
 								@RequestBody ReplyVO vo) {
 		int cnt = service.modify(vo);

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 $(function () {
 	function showModifyModal(rno) {
@@ -11,6 +11,16 @@ $(function () {
 				$("#reply-replyer-input2").val(reply.replyer);
 				$("#reply-reply-textarea2").text(reply.reply);
 				$("#reply-modify-modal").modal("show");
+
+				if (userid != reply.replyer) {
+					$("#reply-modify-btn1").hide();
+					$("#reply-delete-btn1").hide();
+					$("#reply-reply-textarea2").attr("readonly", true);
+				} else {
+					$("#reply-modify-btn1").show();
+					$("#reply-delete-btn1").show();
+					$("#reply-reply-textarea2").removeAttr("readonly");
+				}
 			},
 			error: function () {
 				console.log("댓글 가져오기 실패");
@@ -33,13 +43,15 @@ $(function () {
 		var container = $("#reply-list-container").empty();
 
 		for (var reply of list) {
-			var replyHtml = `<li class="media" id="reply-${reply.rno}" data-rno="${reply.rno}">
-										<div class="media-body">
-											<h5 class="mt-2 mb-1">${reply.replyer}</h5>
-											<p class="mt-0 mb-1">${reply.reply}</p>
-											<small>${formatDatetime(reply.replyDate)}</small>
-										</div>
-									</li>`;
+			var replyHtml = `<li class="left clearfix" id="reply-${reply.rno}" data-rno="${reply.rno}">
+								<div>
+									<div class="header">
+										<strong class="primary-font">${reply.replyer}</strong>
+										<small class="pull-right text-muted">${formatDatetime(reply.replyDate)}</small>
+									</div>
+									<p>${reply.reply}</p>
+								</div>
+							</li>`;
 			var replyComponent = $(replyHtml).click(function () {
 				showModifyModal($(this).attr("data-rno"));
 			});
@@ -144,11 +156,19 @@ $(function () {
 	// 댓글 삭제 버튼 클릭
 	$("#reply-delete-btn1").click(function () {
 		var check = confirm("삭제 하시겠습니까?");
+
 		if (check) {
 			var rno = $("#reply-rno-input2").val();
+			var replyer = $("#reply-replyer-input2").val();
+			var data = {
+				rno: rno,
+				replyer: replyer
+			};
 			$.ajax({
 				type: "delete",
 				url: appRoot + "/replies/" + rno,
+				data: JSON.stringify(data),
+				contentType: "application/json",
 				success: function () {
 					// 모달 닫고
 					$('#reply-modify-modal').modal('hide');

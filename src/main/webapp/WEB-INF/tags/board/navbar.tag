@@ -1,6 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:url value="/board/list" var="listURL">
 	<c:if test="${not empty cri.pageNum }">
@@ -35,9 +36,11 @@
       <li class="nav-item active">
         <a class="nav-link" href="${listURL }">목록보기</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="${registerURL }">글쓰기</a>
-      </li>
+      <sec:authorize access="isAuthenticated()">
+	      <li class="nav-item">
+	        <a class="nav-link" href="${registerURL }">글쓰기</a>
+	      </li>
+      </sec:authorize>
       <li class="nav-item">
         <a class="nav-link" href="${appRoot }/secure/all">모두</a>
       </li>
@@ -65,9 +68,11 @@
   		});
   	});
   </script>
-  <form action="${appRoot }/logout" method="post">
-  	<button class="btn btn-online-secondary">로그아웃</button>
-  </form>
+  <sec:authorize access="isAuthenticated()">
+	  <form action="${appRoot }/logout" method="post">
+	  	<button class="btn btn-online-secondary">로그아웃</button>
+	  </form>
+  </sec:authorize>
   <form id="searchForm" action="${listURL }" method="get" class="form-inline">
   	<select onchange="this.form.submit()" name="amount" class="form-control mr-sm-2">
 	  		<option value="10">10개씩</option>
@@ -89,3 +94,4 @@
   	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
   </form>
 </nav>
+
