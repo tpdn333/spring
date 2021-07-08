@@ -25,6 +25,28 @@
 		<c:param name="type" value="${cri.type }" ></c:param>
 </c:url>
 
+<c:url value="/member/signUp" var="signUpURL">
+	<c:if test="${not empty cri.pageNum }">
+		<c:param name="pageNum" value="${cri.pageNum }"></c:param>
+	</c:if>
+	<c:if test="${not empty cri.amount }">
+		<c:param name="amount" value="${cri.amount }"></c:param>
+	</c:if>
+		<c:param name="keyword" value="${cri.keyword }"></c:param>
+		<c:param name="type" value="${cri.type }" ></c:param>
+</c:url>
+
+<c:url value="/member/info" var="memberInfoURL">
+	<c:if test="${not empty cri.pageNum }">
+		<c:param name="pageNum" value="${cri.pageNum }"></c:param>
+	</c:if>
+	<c:if test="${not empty cri.amount }">
+		<c:param name="amount" value="${cri.amount }"></c:param>
+	</c:if>
+		<c:param name="keyword" value="${cri.keyword }"></c:param>
+		<c:param name="type" value="${cri.type }" ></c:param>
+</c:url>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="${appRoot }/board/list">Spring Board</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,22 +56,25 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="${listURL }">목록보기</a>
+        <a class="nav-link" href="${listURL }"><i class="fas fa-list"></i>목록보기</a>
       </li>
       <sec:authorize access="isAuthenticated()">
 	      <li class="nav-item">
-	        <a class="nav-link" href="${registerURL }">글쓰기</a>
+	        <a class="nav-link" href="${registerURL }"><i class="fas fa-pen"></i>글쓰기</a>
 	      </li>
       </sec:authorize>
-      <li class="nav-item">
-        <a class="nav-link" href="${appRoot }/secure/all">모두</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="${appRoot }/secure/member">회원</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="${appRoot }/secure/admin">관리자</a>
-      </li>
+      	
+      <sec:authorize access="!isAuthenticated()">
+      	<li class="nav-item">
+      		<a class="nav-link" href="${signUpURL }"><i class="fas fa-user-plus"></i>회원가입</a>
+      	</li>
+      </sec:authorize>
+      
+      <sec:authorize access="isAuthenticated()">
+      	<li class="nav-item">
+      		<a class="nav-link" href="${memberInfoURL }"><i class="fas fa-user-cog"></i>내 정보</a>
+      	</li>
+      </sec:authorize>
     </ul>
   </div>
   <script type="text/javascript">
@@ -68,6 +93,9 @@
   		});
   	});
   </script>
+  <sec:authorize access="!isAuthenticated()">
+  	<a class="nav-link" href="${appRoot }/member/login"><i class="fas fa-user-check"></i>로그인</a>
+  </sec:authorize>
   <sec:authorize access="isAuthenticated()">
 	  <form action="${appRoot }/logout" method="post">
 	  	<button class="btn btn-online-secondary">로그아웃</button>
