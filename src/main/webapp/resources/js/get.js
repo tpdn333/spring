@@ -9,6 +9,7 @@ $(function () {
 			success: function (reply) {
 				$("#reply-rno-input2").val(reply.rno);
 				$("#reply-replyer-input2").val(reply.replyer);
+				$("#reply-replyerName-input2").val(reply.replyerName);
 				$("#reply-reply-textarea2").text(reply.reply);
 				$("#reply-modify-modal").modal("show");
 
@@ -46,7 +47,7 @@ $(function () {
 			var replyHtml = `<li class="left clearfix" id="reply-${reply.rno}" data-rno="${reply.rno}">
 								<div>
 									<div class="header">
-										<strong class="primary-font">${reply.replyer}</strong>
+										<strong class="primary-font">${reply.replyerName}</strong>
 										<small class="pull-right text-muted">${formatDatetime(reply.replyDate)}</small>
 									</div>
 									<p>${reply.reply}</p>
