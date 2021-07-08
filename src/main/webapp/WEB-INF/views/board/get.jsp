@@ -114,7 +114,8 @@
 	        		<input type="text" value="" readonly hidden id="reply-rno-input2"/>
 	          		<div class="form-group">
 	            		<label for="reply-replyer-input2" class="col-form-label">작성자</label>
-	            		<input type="text" class="form-control" id="reply-replyer-input2" readonly>
+	            		<input type="text" id="reply-replyerName-input2" class="form-control" readonly/>
+	            		<input type="hidden" class="form-control" id="reply-replyer-input2" readonly>
 	         		</div>
 	        		<div class="form-group">
 	            		<label for="reply-reply-textarea1" class="col-form-label">댓글</label>
