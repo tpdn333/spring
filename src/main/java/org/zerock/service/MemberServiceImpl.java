@@ -55,6 +55,16 @@ public class MemberServiceImpl implements MemberService{
 		int cnt = mapper.update(vo);
 		return cnt == 1;
 	}
+	
+	@Override
+	public boolean modify(MemberVO vo, String oldPassword) {
+		MemberVO old = mapper.read(vo.getUserid());
+		
+		if(encoder.matches(oldPassword, old.getUserpw())) {
+			return modify(vo);
+		}
+		return false;
+	}
 
 	@Override
 	@Transactional
@@ -65,6 +75,9 @@ public class MemberServiceImpl implements MemberService{
 		
 		// tbl_reply 삭제
 		replyMapper.removeByUserid(vo);
+		
+		// 본인 게시물의 다른사람 댓글 삭제
+		replyMapper.replyByBnoByUserid(vo);
 		
 		// tbl_board 삭제
 		boardMapper.removeByUserid(vo);
@@ -77,4 +90,12 @@ public class MemberServiceImpl implements MemberService{
 		return cnt == 1;
 	}
 
+	@Override
+	public boolean remove(MemberVO vo, String oldPassword) {
+		MemberVO old = mapper.read(vo.getUserid());
+		if(encoder.matches(oldPassword, old.getUserpw())) {
+			return remove(vo);
+		}
+		return false;
+	}
 }
