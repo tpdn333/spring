@@ -102,11 +102,11 @@
 	  </form>
   </sec:authorize>
   <form id="searchForm" action="${listURL }" method="get" class="form-inline">
-  	<select onchange="this.form.submit()" name="amount" class="form-control mr-sm-2">
+  	<!-- <select onchange="this.form.submit()" name="amount" class="form-control mr-sm-2">
 	  		<option value="10">10개씩</option>
 	  		<option value="15">15개씩</option>
 	  		<option value="20">20개씩</option>
-	</select>
+	</select> -->
   	<select name="type" class="form-control mr-sm-2">
   		<option value="">--</option>
   		<option value="T" ${cri.type == "T" ? 'selected' : '' }>제목</option>
