@@ -32,7 +32,14 @@ $(document).ready(function() {
 <body>
 	<div class="container">
 	<bd:navbar/>
-		<h1>자유 게시판</h1>
+		<h1 class="float-left">자유 게시판</h1>
+		<form class="float-right mt-2" id="searchForm" action="${listURL }" method="get">
+		  	<select class="custom-select" onchange="this.form.submit()" name="amount">
+			  		<option value="10">10개씩</option>
+			  		<option value="15">15개씩</option>
+			  		<option value="20">20개씩</option>
+			</select>
+		</form>
 		<table class="table table-hover">
 		<thead>
 			<tr>
@@ -94,6 +101,7 @@ $(document).ready(function() {
 				</c:if>
 			</ul>
 		</nav>
+		
 		<!-- pageLink From -->
 		<div style="display:none;">
 			<form id="actionForm" action="${appRoot }/board/list" method="get">
