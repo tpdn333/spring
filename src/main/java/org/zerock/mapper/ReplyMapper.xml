@@ -72,4 +72,11 @@
 		DELETE FROM tbl_reply
 		WHERE replyer = #{userid}
 	</delete>
+	
+	<delete id="replyByBnoByUserid">
+		DELETE FROM tbl_reply
+		WHERE bno IN (
+			SELECT bno FROM tbl_board WHERE writer = #{userid}
+		)
+	</delete>
 </mapper>
