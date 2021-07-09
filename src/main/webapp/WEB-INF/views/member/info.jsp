@@ -10,11 +10,48 @@
 <%@ include file="/WEB-INF/subModules/bootstrapHeader.jsp"%>
 <script type="text/javascript">
 $(function() {
+	var oldPasswordModal = $("#old-password-modal");
+	var whichButton = "";
+	
+	// 모달 확인 버튼 클릭시
+	$("#old-password-modal-btn").click(function() {
+		switch (whichButton) {
+			case "modify-button":
+				$("#member-info-form1").attr("action", "${appRoot}/member/modify").submit();
+			break;
+			case "remove-button":
+				$("#member-info-form1").attr("action", "${appRoot}/member/remove").submit();
+			break;
+		}
+	});
+	
+	// 수정 버튼 클릭 시
+	$("#member-info-modify-btn1").click(function(e) {
+		e.preventDefault();
+		whichButton = "modify-button";
+		oldPasswordModal.modal('show');
+	});
+	
+	// 탈퇴 버튼 클릭 시
 	$("#member-info-remove-btn1").click(function() {
-		var ans = confirm("탈퇴 하시겠습니다?");
+		var ans = confirm("탈퇴 하시겠습니까?");
+		whichButton = "remove-button";
+		
 		if(ans) {
-			$("#member-info-form1").attr("action", "${appRoot}/member/remove")
-			.submit();
+			oldPasswordModal.modal('show');
+		}
+	});
+	
+	// 비밀번호 확인
+	$("#member-info-input2, #member-info-input4").keyup(function() {
+		var pw1 = $("#member-info-input2").val();
+		var pw2 = $("#member-info-input4").val();
+		
+		if(pw1 != pw2) {
+			$("#member-info-password-message").text("비밀번호가 일치하지 않습니다.");
+		} else {
+			$("#member-info-password-message").empty();
+			$("#member-info-modify-btn1").removeAttr("disabled");
 		}
 	});
 });
@@ -26,12 +63,17 @@ $(function() {
 	<div class="container">
 	<c:if test="${param.status == 'success' }">
 		<div id="alert1" class="alert alert-primary" role="alert">
-			회원정보를 수정하였습니다.
+			회원정보를 수정하였습니다.removeSuccess
 		</div>
 	</c:if>
 	<c:if test="${param.status == 'error' }">
 		<div id="alert1" class="alert alert-danger" role="alert">
 			회원정보를 수정을 실패하였습니다.
+		</div>
+	</c:if>
+	<c:if test="${param.status == 'removeSuccess' }">
+		<div id="alert1" class="alert alert-danger" role="alert">
+			회원이 탈퇴되었습니다.
 		</div>
 	</c:if>
 	<h1>내 정보</h1>
@@ -43,16 +85,45 @@ $(function() {
 						<input readonly value="${member.userid }" type="text" class="form-control" id="member-info-input1" name="userid"/>
 					</div>
 					<div class="form-group">
-						<label for="member-info-input2">비밀번호</label>
+						<label for="member-info-input2">새 비밀번호</label>
 						<input type="password" class="form-control" id="member-info-input2" name="userpw"/>
+					</div>
+					<div class="form-group">
+						<label for="member-info-input4">새 비밀번호 확인</label>
+						<input type="password" class="form-control" id="member-info-input4"/>
+						<small id="member-info-password-message" class="form-text text-danger"></small>
 					</div>
 					<div class="form-group">
 						<label for="member-info-input3">이름</label>
 						<input value="${member.userName }"type="text" class="form-control" id="member-info-input3" name="userName"/>
 					</div>
-					<button class="btn btn-secondary" id="member-info-modify-btn1">정보 수정</button>
+					<button disabled class="btn btn-secondary" id="member-info-modify-btn1">정보 수정</button>
 					<button type="button" class="btn btn-danger" id="member-info-remove-btn1">회원 탈퇴</button>
 				</form>
+			</div>
+		</div>
+	</div>
+	
+	<%-- 기존 패스워드 입력 모달 --%>
+	<div class="modal fade" id="old-password-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">기존 비밀번호 입력</h4>
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="old-passwrod-input">기존 비밀번호</label>
+						<input form="member-info-form1" type="password" class="form-control" id="old-passwrod-input" name="oldPassword"/>
+					</div>
+				</div>
+				<div class="modal-footer">
+			    	<button type="button" class="btn btn-primary" id="old-password-modal-btn">확인</button>
+			    	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+			    </div>
 			</div>
 		</div>
 	</div>
